@@ -1,9 +1,9 @@
-# Convert public NOAA Huricane Data to JSON format
+# Convert public NOAA Hurricane Data to JSON format
 
-This utility converts public NOAA huricane data to JSON format
+This utility converts public NOAA hurricane data to JSON format
 for easier ingestion into analysis tools.
 
-The Huricane data can be found on www.nhc.noaa.gov : 
+The Hurricane data can be found on www.nhc.noaa.gov : 
 
 * [Atlantic (5.9MB download)](http://www.nhc.noaa.gov/data/hurdat/hurdat2-1851-2016-041117.txt)
 

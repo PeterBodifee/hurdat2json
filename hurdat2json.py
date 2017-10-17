@@ -3,7 +3,7 @@
 # Author: Peter Bodifee
 # Date: 2017-10-17
 
-# This utility converts public NOAA huricane data to JSON format
+# This utility converts public NOAA hurricane data to JSON format
 # for easier ingestion into analysis tools
 # http://www.nhc.noaa.gov/data/hurdat/hurdat2-format-atlantic.pdf
 
@@ -50,7 +50,7 @@ def get_cli_parser():
 
 
 def convert_position(s):
-    # in the huricane data position is formatted like 29.3N and 70.2W
+    # in the hurricane data position is formatted like 29.3N and 70.2W
     # to make the position numeric there is a sign
     # S an W are negative, N and E are positive
     if s[-1:] in ['S','W']:
@@ -61,7 +61,7 @@ def convert_position(s):
         return None
 
 def convert_date_time_iso8601(d, t):
-    # in the huricane data date and time are 2 seperate fields,
+    # in the hurricane data date and time are 2 seperate fields,
     # formatted <YYYYMMDD> and <HHMM>
     # this function returns a string in ISO8601 format:
     # <YYYY>-<MM>-<DD>T<HH>:<MM>:<SS>
@@ -69,21 +69,21 @@ def convert_date_time_iso8601(d, t):
                                     aniso8601.parse_time(t))
     return dt.isoformat()
 
-def get_huricane_data(fields):
-    # put header in huricane dict
-    huricane = {}
+def get_hurricane_data(fields):
+    # put header in hurricane dict
+    hurricane = {}
     # basin = 1st field pos 1-2
-    huricane['basin'] = fields[0][0:2]    
+    hurricane['basin'] = fields[0][0:2]    
     # cyclone number = 1st field pos 3-4
-    huricane['cyclone_nr'] = int(fields[0][2:4])    
+    hurricane['cyclone_nr'] = int(fields[0][2:4])    
     # year = 1st field pos 5-8
-    huricane['year'] = int(fields[0][4:8])    
+    hurricane['year'] = int(fields[0][4:8])    
     # name = 2nd field
-    huricane['name'] = fields[1]
+    hurricane['name'] = fields[1]
     # nr of tracks = 3rd field
-    huricane['nr_of_tracks'] = int(fields[2])
+    hurricane['nr_of_tracks'] = int(fields[2])
 
-    return huricane
+    return hurricane
 
 def get_track_data(fields):
     # process track data
@@ -141,15 +141,15 @@ def main():
             if args.Debug:
                 print ("DEBUG fields:", fields)
 
-            # line with 4 fields is the huricane header record 
+            # line with 4 fields is the hurricane header record 
             # line with 21 fields is track record 
 
             if len(fields) == 4:
-                # create a new dict instance for a huricane
-                huricane = get_huricane_data(fields)
+                # create a new dict instance for a hurricane
+                hurricane = get_hurricane_data(fields)
 
                 if args.Debug:
-                    print ("DEBUG huricane header:", huricane)
+                    print ("DEBUG hurricane header:", hurricane)
 
                 # initialize track counter and tracks list
                 track_cnt = 0
@@ -169,11 +169,11 @@ def main():
                 # add track to the tracks list
                 tracks.append(track)
 
-                # when at last track add tracks to huricane and 
-                # output huricane data in JSON
-                if track_cnt == huricane['nr_of_tracks']:
-                    huricane['tracks']=tracks
-                    print(json.dumps(huricane))
+                # when at last track add tracks to hurricane and 
+                # output hurricane data in JSON
+                if track_cnt == hurricane['nr_of_tracks']:
+                    hurricane['tracks']=tracks
+                    print(json.dumps(hurricane))
 
             line = fp.readline()        # next line 
 
