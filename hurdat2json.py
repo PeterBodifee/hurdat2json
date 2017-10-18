@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
 # Author: Peter Bodifee
-# Date: 2017-10-17
+# Date: 2017-10-18
 
 # This utility converts public NOAA hurricane data to JSON format
 # for easier ingestion into analysis tools
 # http://www.nhc.noaa.gov/data/hurdat/hurdat2-format-atlantic.pdf
 
-VERSION='0.2'
+VERSION='0.3'
 
 # standard library imports
 import sys
@@ -177,7 +177,6 @@ def main():
 
             line = fp.readline()        # next line 
 
-    finally:
         fp.close()
 
     return
